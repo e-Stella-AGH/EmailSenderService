@@ -1,6 +1,7 @@
 import smtplib
+from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 
 from domain.models import MailBody
 from infrastructure.EmailSender import send
@@ -15,8 +16,12 @@ async def hello():
     }
 
 
-@app.post("/email/", status_code=200)
-async def send_email(email: MailBody):
+@app.post("/email", status_code=200)
+async def send_email(email: MailBody, x_dry_run: Optional[str] = Header("False")):
+    if x_dry_run == "True":
+        return {
+            "mail": email
+        }
     try:
         send(email)
     except smtplib.SMTPException as e:
@@ -27,4 +32,3 @@ async def send_email(email: MailBody):
     return {
         "mail_status": "sent"
     }
-
