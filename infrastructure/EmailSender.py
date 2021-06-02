@@ -10,7 +10,7 @@ from local_auth import login, password
 def send(email: MailBody):
     msg = MIMEMultipart()
     msg['Subject'] = email.subject
-    msg['From'] = email.sender
+    msg['From'] = f"{email.sender_name} <{email.sender_email}>"
     msg['To'] = email.receiver
     msg.attach(MIMEText(email.content))
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
