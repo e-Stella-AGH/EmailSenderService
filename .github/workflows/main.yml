@@ -26,5 +26,8 @@ jobs:
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Test with pytest
+        env:
+          EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: |
           pytest tests/tests.py

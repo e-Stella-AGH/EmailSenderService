@@ -3,8 +3,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from domain.models import MailBody
-
-from local_auth import login, password
+import os
+try:
+    from local_auth import login, password
+except ImportError:
+    login, password = os.environ["EMAIL_LOGIN"], os.environ["EMAIL_PASSWORD"]
 
 
 def send(email: MailBody):

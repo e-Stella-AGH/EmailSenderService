@@ -9,13 +9,6 @@ from infrastructure.EmailSender import send
 app = FastAPI()
 
 
-@app.get("/")
-async def hello():
-    return {
-        "hello": "hello"
-    }
-
-
 @app.post("/email", status_code=200)
 async def send_email(email: MailBody, x_dry_run: Optional[str] = Header("False")):
     if x_dry_run == "True":
