@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 
 from domain.models import MailBody
 import os
+
 try:
     from local_auth import login, password
 except ImportError:
@@ -16,6 +17,7 @@ def send(email: MailBody):
     msg['From'] = f"{email.sender_name} <{email.sender_email}>"
     msg['To'] = email.receiver
     msg.attach(MIMEText(email.content))
+    msg.add_header("reply-to", email.sender_email)
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
     server.login(login, password)
